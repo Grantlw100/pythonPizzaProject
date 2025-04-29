@@ -1,0 +1,133 @@
+
+from .utils import inputPizzaSize, inputYesOrNo, start_delayed_message
+input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
+
+
+
+#############################################################################################################################################################
+#
+#               # Freddies Pizzeria Console Application Order Generator
+#   # This is where the order is created for the rest of the program to use
+#
+#############################################################################################################################################################
+
+
+yesOrNo = "Please enter \"Y\" for yes and \"N\" for no.\n"
+option_list = ["Y","N"]
+break_line = "\n"+("-"*80)
+input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "add delivery or pick-up to",]
+
+
+def errorMessage(value):
+    try:
+        print(f"\nYou entered {value} which was an invalid input. Please try again.\n")
+    except (UnboundLocalError, TypeError) as e:
+        print(f"An error occurred: {e}. Please try again.")
+
+
+def inputMessage(value):
+    print(break_line)
+    print(f"\nWould you like to {value} your order?")
+
+
+def createOrder():
+    size_list = ["S","M","L"]
+    pizza_string = ""
+    pizza_extra = [0,0]
+    pizza_price = 0.00
+    pizza_size = inputPizzaSize()
+    topping_pepperoni = inputYesOrNo(inputMessage(input_array[0]))
+    topping_extra_cheese  = inputYesOrNo(inputMessage(input_array[1]))
+    extra_soda  = inputYesOrNo(inputMessage(input_array[2]))
+    extra_breadsticks = inputYesOrNo(inputMessage(input_array[3]))
+    continue_order_valid = inputYesOrNo(inputMessage(input_array[4]))
+    
+
+
+    # Base Price of Pizza
+    if pizza_size == "S":
+        pizza_price += 15.00
+        pizza_string += pizza_size + " "
+    elif pizza_size == "M":
+        pizza_price += 20.00
+        pizza_string += pizza_size + " "
+    elif pizza_size == "L":
+        pizza_price += 25.00
+        pizza_string += pizza_size + " "
+        
+
+    if topping_pepperoni == "Y" and pizza_price >= 20:
+        pizza_price += 3.00
+        pizza_string += topping_pepperoni + " "
+    elif topping_pepperoni == "Y":
+        pizza_price += 2.00
+        pizza_string += topping_pepperoni + " "
+    else:
+        pizza_string += topping_pepperoni + " "
+
+    # Add Extra Cheese to Pizza
+    if topping_extra_cheese == "Y":
+        pizza_price += 1.00
+        pizza_string += topping_extra_cheese + ""
+    else: 
+        pizza_string += topping_extra_cheese + ""
+
+    
+    if extra_soda == "Y":
+        pizza_price += 2.00
+        pizza_extra[0] += 1 
+
+    if extra_breadsticks == "Y":
+        pizza_price += 5.00
+        pizza_extra[1] += 1
+
+    if pizza_size == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
+        pizza_price = 25.00
+
+
+    
+    if continue_order_valid == "Y":
+        continue_order = True
+    else:
+         continue_order = False
+    return pizza_price, pizza_string, continue_order, pizza_extra
+
+
+
+
+
+
+
+def deliverOrder():
+    timer = 10
+    receiving = "We just received your order and have summoned the great and powerful Freddies to bring your pizza to life"  
+    making = "Freddies himself is shakin and bakin your order."  
+    baking = "Freddies just popped that baby in the oven."  
+    boxing = "Order all boxed up and ready to go!"  
+    moving = "WE ARE COMING IN HOT AND FAST!!!"  
+    arriving = "ITS HERE ITS HERE YOUR ORDER IS HERE"   
+    waiting = "YOUR ORDER IS BIG CHILLIN & WAITING FOR YOU HERE AT FREDDIES"
+    receiptOrderItemsDeliveryFee = ""
+    
+    
+    deliver_order = inputYesOrNo(inputMessage(input_array[5]))
+        
+    # Example usage:
+    if deliver_order == "Y":
+        receiptOrderItemsDeliveryFee += f"\n\t+ $5.00 delivery fee \n"
+        start_delayed_message(receiving, timer)
+        start_delayed_message(making, timer*2)
+        start_delayed_message(baking, timer*3.5)
+        start_delayed_message(boxing, timer*5.0)
+        start_delayed_message(moving, timer*6.0)
+        start_delayed_message(arriving, timer*7.5)
+    else: 
+        start_delayed_message(receiving, timer)
+        start_delayed_message(making, timer*2.5)
+        start_delayed_message(baking, timer*3.5)
+        start_delayed_message(waiting, timer*4.5)
+    return deliver_order, receiptOrderItemsDeliveryFee
+
+
+
+
