@@ -3,6 +3,14 @@ import random
 from .testUtils import generateTestInputs
 from .utils import testArray
 
+#############################################################################################################################################################
+#
+#               # FREDDIES TEST 
+#   # This is where the order is created for the rest of the program to use
+#
+#############################################################################################################################################################
+
+
 
 
 input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
@@ -282,7 +290,4 @@ def calculateGratuityTest(subtotal):
     print("\n")
     return subtotal
     
-    
 
-    
-            

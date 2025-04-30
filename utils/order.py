@@ -1,5 +1,5 @@
 
-from .utils import inputPizzaSize, inputYesOrNo, start_delayed_message
+from .utils import inputPizzaSize, inputPizzaYesOrNo, start_delayed_message
 input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
 
 
@@ -21,7 +21,7 @@ input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "ad
 def errorMessage(value):
     try:
         print(f"\nYou entered {value} which was an invalid input. Please try again.\n")
-    except (UnboundLocalError, TypeError) as e:
+    except (ValueError, EOFError, UnboundLocalError, TypeError) as e:
         print(f"An error occurred: {e}. Please try again.")
 
 
@@ -31,16 +31,21 @@ def inputMessage(value):
 
 
 def createOrder():
-    size_list = ["S","M","L"]
     pizza_string = ""
     pizza_extra = [0,0]
     pizza_price = 0.00
+    topping_pepperoni = ""
+    topping_extra_cheese  = ""
+    extra_soda  = ""
+    extra_breadsticks = ""
+    continue_order_valid = ""
+
     pizza_size = inputPizzaSize()
-    topping_pepperoni = inputYesOrNo(inputMessage(input_array[0]))
-    topping_extra_cheese  = inputYesOrNo(inputMessage(input_array[1]))
-    extra_soda  = inputYesOrNo(inputMessage(input_array[2]))
-    extra_breadsticks = inputYesOrNo(inputMessage(input_array[3]))
-    continue_order_valid = inputYesOrNo(inputMessage(input_array[4]))
+    topping_pepperoni = inputPizzaYesOrNo(input_array[0])
+    topping_extra_cheese  = inputPizzaYesOrNo(input_array[1])
+    extra_soda  = inputPizzaYesOrNo(input_array[2])
+    extra_breadsticks = inputPizzaYesOrNo(input_array[3])
+    continue_order_valid = inputPizzaYesOrNo(input_array[4])
     
 
 
@@ -53,7 +58,7 @@ def createOrder():
         pizza_string += pizza_size + " "
     elif pizza_size == "L":
         pizza_price += 25.00
-        pizza_string += pizza_size + " "
+        pizza_string = pizza_size + " "
         
 
     if topping_pepperoni == "Y" and pizza_price >= 20:
@@ -110,7 +115,7 @@ def deliverOrder():
     receiptOrderItemsDeliveryFee = ""
     
     
-    deliver_order = inputYesOrNo(inputMessage(input_array[5]))
+    deliver_order = inputPizzaYesOrNo(input_array[5])
         
     # Example usage:
     if deliver_order == "Y":

@@ -1,4 +1,6 @@
 from FinalProject.utils.testUtils import generateChance, testArray
+from ..utils.FreddiesTest import topField, bottomField
+from ..utils.utils import inputYesOrNo, inputInt
 breakline = "-"*100
 
 def generateOrders(number):
@@ -92,19 +94,26 @@ def generateOrders(number):
     print(f"\t\t\t\tEND TEST NUMBER:{number+1}")
     print(("<"*100)+"\n\n\n\n")
 
-i = 10
-number = 0
 
-while number < i:
-    value = ""
-    try:
-        value = generateOrders(number)
-    except (KeyboardInterrupt, EOFError, AttributeError, UnboundLocalError, TypeError) as e:
-        print("-- ERROR --"*10)
-        print(f"\n\t\t\tTHIS INPUT BROKE THE SYSTEM:\n\t\t\t\t\t\"{value}\"\n")
-        print("<"*100)
-        print(f"\t\t\t\tEND TEST NUMBER:{number+1}")
-        print(("<"*100)+"\n\n\n\n")
-    number+=1
+def runWeek4WrongTest():
+    input = inputYesOrNo("Would you like to run tests with PROPER inputs?")
+    if input == "Y":
+        testsToRun = inputInt()
+        print(topField)
+        print("@"*100)
+        print("\t\t\t\tBEGIN TESTS")
+        print("@"*100)
+        print(bottomField)
+        number = 0
+        while number < testsToRun:
+            try:
+                value = generateOrders(number)
+            except (KeyboardInterrupt, EOFError, AttributeError, UnboundLocalError, TypeError) as e:
+                print("-- ERROR --"*10)
+                print(f"\n\t\t\tTHIS INPUT BROKE THE SYSTEM:\n\t\t\t\t\t\"{value}\"\n")
+                print("<"*100)
+                print(f"\t\t\t\tEND TEST NUMBER:{number+1}")
+                print(("<"*100)+"\n\n\n\n")
+            number+=1
 
     

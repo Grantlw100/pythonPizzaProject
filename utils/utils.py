@@ -1,6 +1,13 @@
 import threading
 import time
 
+#######################################################################################################################################################################################################
+#
+#               # UTILITIES
+#   # This is the main entry point for the Freddies Pizzeria Console Ordering application.
+#
+#######################################################################################################################################################################################################
+
 
 
 size_list = ["S","M","L"]
@@ -12,15 +19,14 @@ testArray = [["S", "M", "L"], ["Y", "N"]]
 
 def errorMessage(value):
     break_line = "\n"+("-"*80)
-    print(f"\nYou entered {value} which was an invalid input. Please try again.\n")
+    print(f"\nINVALID INPUT: {value}\nPLEASE TRY AGAIN\n")
     print(break_line)
 
 
-def inputMessage(value):
+def inputPizzaMessage(value):
     break_line = "\n"+("-"*80)
-    print(break_line)
-    print(f"\nWould you like to {value} your order?")
-
+    returnString = f"\nWould you like to {value} your order?"
+    return returnString
 
 
 def inputPizzaSize():
@@ -37,9 +43,9 @@ def inputPizzaSize():
                 value = input("What size pizza suits your appetite? \nPlease enter a size for your Freddies' Pizza.\nOptions include:\nS for Small, M for Medium, and L for Large.\n").strip().upper()
                 print(value)
             return value
-        except (KeyboardInterrupt, EOFError, UnboundLocalError, TypeError) as e:
-            print("\nInvalid input. Please try again.")
-            return None
+        except (EOFError, UnboundLocalError, TypeError) as e:
+            print(f"\nInvalid input {e} Please try again.")
+            continue
         
 def inputYesOrNo(message):
     value = ""
@@ -47,6 +53,8 @@ def inputYesOrNo(message):
     option_list = ["Y","N"]
     break_line = "\n"+("-"*80)
     print(break_line)
+
+    inputPizzaMessage = message+yesOrNo
     while True:
         try:
             value = input(message+yesOrNo).strip().upper()
@@ -54,71 +62,90 @@ def inputYesOrNo(message):
                 errorMessage(value)
                 value = input(message+yesOrNo).strip().upper()
             return value
-        except (KeyboardInterrupt, EOFError, UnboundLocalError, TypeError) as e:
-            print("\nInvalid input. Please try again.")
-            return None
+        except (EOFError, UnboundLocalError, TypeError) as e:
+            errorMessage(e)
+            continue
 
+
+def inputPizzaYesOrNo(message):
+    value = ""
+    yesOrNo = "Please enter \"Y\" for yes and \"N\" for no.\n"
+    consoleRequest = inputPizzaMessage(message)
+    consoleRequest += yesOrNo
+    option_list = ["Y","N"]
+    break_line = "\n"+("-"*80)
+    print(break_line)
+
+    while True:
+        try:
+            value = input(consoleRequest).strip().upper()
+            while value not in option_list:
+                errorMessage(value)
+                value = input(consoleRequest).strip().upper()
+            return value
+        except (EOFError, UnboundLocalError, TypeError) as e:
+            errorMessage(e)
+            continue
+        
 
 def inputSplits():
-    split_order = inputYesOrNo("split")
+    split_order = inputPizzaYesOrNo("split")
     break_line = "\n"+("-"*100)
     print(break_line)
     if split_order == "Y":
-        splits = input("\nHow many ways would you like to split this order? (MAX 5 WAYS)\n")
-        while not splits.isdigit() or 5 >= int(splits) <= 0:
-            errorMessage(splits)
+        value = input("\nHow many ways would you like to split this order? (MAX 5 WAYS)\n")
+        while not value.isdigit() or 5 >= int(value) <= 0:
+            errorMessage(value)
             print(break_line)
-            splits = input("\nHow many ways would you like to split this order with a maximum of 5?")
-        if splits == 0:
-            splits =1
+            value = input("\nHow many ways would you like to split this order with a maximum of 5?")
+        if value == 0:
+            value =1
     else: 
-        splits = 1
-    return int(splits)
+        value = 1
+    return int(value)
 
-def inputInt():
+def inputInt(message):
     break_line = "\n"+("-"*100)
-    print(break_line)
-    splits = input("\nHow many test would you like to run? (MAX 10 TESTS)\n")
-    while not splits.isdigit() or int(splits) >= 10 or int(splits) <= 0:
-        errorMessage(splits)
-        print(break_line)
-        splits = input("\nHow many tests would you like to run???")
-    if splits == 0:
-        splits =1
-    return int(splits)
-
-def calculateGratuity(subtotal):
-    break_line = "\n"+("-"*80)
-    tip_input = 0.00
     print(break_line)
     while True:
         try:
-            tip_input = input("\nEnter the tip as a dollor amount: 1 or 1.00 or 1.0 \n\nOr as a decimal percentage: .15 = 15%, .2 = 20%, 0.25 = 25%.\n")
-            while not tip_input.isdigit() or 5 >= int(tip_input) <= 0:
-                errorMessage(tip_input)
-                print(break_line)
-                tip_input = input("\nEnter the tip as a dollor amount: 1 or 1.00 or 1.0 \n\nOr as a decimal percentage: .15 = 15%, .2 = 20%, 0.25 = 25%.\n")
-            
-        except (KeyboardInterrupt, EOFError, UnboundLocalError, TypeError) as e:
-            print("\nInvalid input. Please try again.")
-            return None
-        # If the gratuity was a flat amount add it to the total
-        if tipAmount == "":
-            tipAmount = .15;
-        else:
-            tipAmount = float(tipAmount);
-            
-        # calculate and add gratuity rate
-        if tipAmount >= 1:
-            return tipAmount
-        elif tipAmount <= .15:
-            return subtotal * .15
-        else:
-            tipAmount = tipAmount * subtotal
-            return  round(tipAmount, 2)
-            
+            value = int(input(message).strip())
+        except (ValueError, EOFError, UnboundLocalError, TypeError) as e:
+            errorMessage(e)
+            continue
+        return int(value)
 
 
+def inputFloat(message):
+    break_line = "\n"+("-"*100)
+    print(break_line)
+    while True:
+        try:
+            value = float(input(message).strip())
+            return value
+        except (ValueError, EOFError, UnboundLocalError, TypeError) as e:
+            errorMessage(e)
+            continue
+
+
+
+def calculateGratuity(subtotal):
+    break_line = "\n"+("-"*80)
+    tipAmount = 0
+
+    getFloatMessage = "Please enter a tip as a dollar amount ($5) or ($5.50) or as a decimal for a percentage (.03 = 3%)"
+    tipAmount = inputFloat(getFloatMessage)
+    # If the gratuity was a flat amount add it to the total
+        
+    # calculate and add gratuity rate
+    if tipAmount >= 1:
+        return tipAmount
+    elif tipAmount <= .15:
+        return subtotal * .15
+    else:
+        tipAmount = tipAmount * subtotal
+        return  round(tipAmount, 2)
+            
 
 
 def delayed_print(message, delay):
@@ -172,8 +199,8 @@ pizza_outro = f"""
 UuUuUuUuU   IT AINT ... 
 mm O  O |    _______    
 m ___~*~|.-''#O&#o%#``-.   
- \\__/ /((%& FREDDIES %&))  
-_/\~v~/\__`-._#%&O#&%_.-'   
+ \\\\__/ /((%& FREDDIES %&))  
+_/\\~v~/\__`-._#%&O#&%_.-'   
 ` |\F/|`- \ `-."".-'
   |.| |    \ /`./      WE
   |.| |  \  `  /    HOPE YOU 
@@ -182,5 +209,3 @@ _/\~v~/\__`-._#%&O#&%_.-'
 Thank you for ordering at Freddies!
 {new_order}
 """
-
-
