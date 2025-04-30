@@ -429,6 +429,7 @@ def generateTestInputs(testArray, testType):
 #############################################################################################################################################################
 
 
+
 yesOrNo = "Please enter \"Y\" for yes and \"N\" for no.\n"
 option_list = ["Y","N"]
 break_line = "\n"+("-"*80)
@@ -460,8 +461,6 @@ def createOrder():
     pizza_size = inputPizzaSize()
     topping_pepperoni = inputPizzaYesOrNo(input_array[0])
     topping_extra_cheese  = inputPizzaYesOrNo(input_array[1])
-    extra_soda  = inputPizzaYesOrNo(input_array[2])
-    extra_breadsticks = inputPizzaYesOrNo(input_array[3])
     continue_order_valid = inputPizzaYesOrNo(input_array[4])
     
 
@@ -552,12 +551,34 @@ def deliverOrder():
 
 
 
+def addExtras():
+    soda_count = 0
+    stick_count = 0
+    extras_value = 0.00
+
+    
+    extra_soda  = inputPizzaYesOrNo(input_array[2])
+    extra_breadsticks = inputPizzaYesOrNo(input_array[3])
+
+
+    if extra_soda == "Y":
+        soda_count = inputInt("How many sodas would you like to add?")
+        extras_value += (soda_count * 2.00)
+
+    if extra_breadsticks == "Y":
+        stick_count = inputInt("How many orders of FredSticks would you like to add?")
+        extras_value += (stick_count * 5.00)
+
+    return soda_count, stick_count, extras_value
+
+
+
 
 
 
 #############################################################################################################################################################
 #
-#               # Order Generator
+#               # RECEIPT Generator
 #   # This is where the order is created for the rest of the program to use
 #
 #############################################################################################################################################################
@@ -719,6 +740,7 @@ def createReceiptItems(order_list, soda_count, bread_stick_count ):
 
 
 
+
 input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
 
 beginField = (">"*100)
@@ -742,10 +764,7 @@ def runFreddiesTest(number, testType):
     base_price = 0.00
     order_number = 1
     pizza_list = []
-    pizza_extra = [0,0]
     order_list = ""
-    soda_count = 0
-    breadstick_count = 0
     continue_order = True
     order_again = ""
     endProgram = False
@@ -776,18 +795,18 @@ def runFreddiesTest(number, testType):
             print(endField)
             print(f" {"NEWPIZZA "*11}")
             print("\n")
-            pizza_price, pizza_string, continue_order, pizza_extra, order_again = createOrderTest(testArray[1], testType)
+            pizza_price, pizza_string, continue_order, order_again = createOrderTest(testArray[1], testType)
             print(topField)
             print("CREATE ORDER COMPLETE")
             print(endField)
-            print(f"\nPIZZA PRICE: {pizza_price} PIZZA STRING: {pizza_string} CONTINUE ORDER:{continue_order} PIZZA EXTRA :{pizza_extra} ORDER AGAIN :{order_again}\n")
+            print(f"\nPIZZA PRICE: {pizza_price} PIZZA STRING: {pizza_string} CONTINUE ORDER:{continue_order} ORDER AGAIN :{order_again}\n")
             print(fullField)
             print("\n")
             pizza_list.append(pizza_string)
-            soda_count += pizza_extra[0]
-            breadstick_count += pizza_extra[1]
             base_price +=pizza_price
         order_list = "endOfPizza".join(pizza_list)
+        soda_count, breadstick_count, extra_value = addExtrasTest(testArray[1], testType)
+        base_price+= extra_value
         delivery_option, receiptOrderItemsDeliveryFee = deliverOrderTest(testArray[1], testType)
         receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
         print(topField)
@@ -840,10 +859,7 @@ def runFreddiesTest(number, testType):
 
             order_number+=1
             base_price = 0
-            breadstick_count = 0
-            soda_count= 0
             pizza_list = []
-        
             order_list = ""
             receiptOrderItems = ""
             continue_order = True
@@ -862,9 +878,7 @@ def runFreddiesTest(number, testType):
 
 def createOrderTest(testArray, testType):
     pizza_string = ""
-    pizza_extra = [0,0]
     pizza_price = 0.00
-    pizza_extra = [0,0]
 
     print(topField)
     print("TEST PIZZA SIZE")
@@ -887,23 +901,6 @@ def createOrderTest(testArray, testType):
     print(fullField)
     print("\n")
        
-       
-    print(topField)
-    print("TEST ADDING FREDSTICKS")
-    print(endField)
-    extra_breadsticks = generateTestInputs(testArray, testType)
-    print(fullField)
-    print("\n")
-    
-    
-    print(topField)
-    print("TEST ADDING SODA")
-    print(endField)
-    extra_soda = generateTestInputs(testArray, testType)
-    print(fullField)
-    print("\n")
-
-
     print(topField)
     print("TEST CONTINUE ORDER")
     print(endField)
@@ -917,6 +914,8 @@ def createOrderTest(testArray, testType):
     order_again = generateTestInputs(testArray, testType)
     print(fullField)
     print("\n")
+
+
 
     # Base Price of Pizza
     if pizza_size == "S":
@@ -941,25 +940,17 @@ def createOrderTest(testArray, testType):
     pizza_string += topping_extra_cheese + ""
 
     
-    if extra_soda == "Y":
-        pizza_price += 2.00
-        pizza_extra[0] += 1 
-
-    if extra_breadsticks == "Y":
-        pizza_price += 5.00
-        pizza_extra[1] += 1
-
     if pizza_size == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
         pizza_price = 25.00
 
 
     if continue_order_valid == "Y":
         continue_order = True
-        return pizza_price, pizza_string, continue_order, pizza_extra, order_again
+        return pizza_price, pizza_string, continue_order, order_again
 
     elif continue_order_valid == "N":
          continue_order = False
-         return pizza_price, pizza_string, continue_order, pizza_extra, order_again
+         return pizza_price, pizza_string, continue_order, order_again
 
 
 
@@ -981,23 +972,57 @@ def deliverOrderTest(testArray, testType):
         receiptOrderItemsDeliveryFee += f"\n\tNO DELIVERY FEE"
     return deliver_order, receiptOrderItemsDeliveryFee
 
+def addExtrasTest(testArray, testType):
+    soda_count = 0
+    stick_count = 0
+    soda_value = 0.00
+    stick_value = 0.00
+    extra_value = 0.00
 
-def calculateGratuityTest(subtotal):
+    print(topField)
+    print("TEST ADDING SODA")
+    print(endField)
+    extra_soda = generateTestInputs(testArray, testType)
+    if extra_soda == "Y":
+        print(breakLine)
+        soda_count = random.randint(0,10) 
+        soda_value = (2.00*float(soda_count))
+        print(f"SODAS ORDERED:      {soda_count}    VALUE: {soda_value}")
+        extra_value += soda_value
+    print(fullField)
+    print("\n")
     
+    
+    print(topField)
+    print("TEST ADDING FREDSTICKS")
+    print(endField)
+    extra_breadsticks = generateTestInputs(testArray, testType)
+    if extra_breadsticks == "Y":
+        print(breakLine)
+        stick_count = random.randint(0,10) 
+        stick_value +=( 5.00 * float(stick_count))
+        print(f"FREDSTICKS ORDERED: {stick_count}    VALUE: {stick_value}")
+        extra_value += stick_value
+    print(fullField)
+    print("\n")
+
+
+
+    return soda_count, stick_count, extra_value
+
+
+def calculateGratuityTest(subtotal):    
     tipAmount = (random.randint(1,10)/10)
     subtotal *= tipAmount
     print(topField)
     print("TEST DELIVER ORDER")
     print(endField)
-    print(f"\nORDER TIP PERCENTAGE: {tipAmount*10}%")
+    print(f"\nORDER TIP PERCENTAGE: {tipAmount*100}%")
     print(f"\n{breakLine}\n")
     print(f"ORDER TIP AMOUNT: {subtotal: .2f}\n")
     print(fullField)
     print("\n")
     return subtotal
-    
-
-
     
 #############################################################################################################################################################
 #
@@ -1265,9 +1290,11 @@ def RunWeek4RightTest():
 
 
 def week5Test():
+    print(breakLine)
     input = inputYesOrNo("Would you like to run tests with PROPER inputs?")
+    print(breakLine)
     if input == "Y":
-        testsToRun = inputInt()
+        testsToRun = inputInt("How many tests would you like to run?")
         print(topField)
         print("@"*100)
         print("\t\t\t\tBEGIN TESTS")
@@ -1295,9 +1322,11 @@ def week5Test():
         print("@"*100)
         print(bottomField)
 
+    print(breakLine)
     input = inputYesOrNo("Would you like to run tests with IMPROPER inputs?")
+    print(breakLine)
     if input == "Y":
-        testsToRun = inputInt()
+        testsToRun = inputInt("How many tests would you like to run?")
         number = 0
         while number < testsToRun:
             value = 0
@@ -1335,8 +1364,12 @@ def week5Test():
 ######################################################################################################################################################################################################
 
     
+
+
 def FreddiesPizzaApplication():
+    print(breakLine)
     runTest = inputYesOrNo("Would you like to run tests for Freddies Week 5 Code?")
+    print(breakLine)
     if runTest == "Y":
         week5Test()
     # initialize base values and comparison lists
@@ -1347,20 +1380,17 @@ def FreddiesPizzaApplication():
     _id = random.randint(1, 999)
     order_number = 1
     order_id = order_number + _id
+
     order_name = ""
     order_list = ""
-    pizza_list = []
-    pizza_extra = [0,0]
-    soda_count = 0
-    breadstick_count = 0
     continue_order = True
     order_again = ""
     endProgram = False
     receiptOrderItems = ""
     receiptOrderItemsDeliveryFee = " "
 
-
-
+    # incorporate pizza_extra into pizza list
+    pizza_list = []
 
 
 
@@ -1368,28 +1398,34 @@ def FreddiesPizzaApplication():
 
     print(pizza_intro)
     # base_price, pizza_string, continue_order = createOrder()
-    while endProgram == False:
-        while continue_order == True:
-            if (order_name == ""):
-                print(break_line)
-                order_name = input("\nPlease enter a name for the order?\n")
-            #would you like to double the last order exactly as it was written? 
-            # if Y - validate, set order_amount to 2, double price, createReceiptOrder,
-            pizza_price, pizza_string, continue_order, pizza_extra = createOrder()
-            pizza_list.append(pizza_string)
-            soda_count += pizza_extra[0]
-            breadstick_count += pizza_extra[1]
-            base_price +=pizza_price
-        order_list = "endOfPizza".join(pizza_list)
-        splits = inputSplits()
-        delivery_option, receiptOrderItemsDeliveryFee = deliverOrder()
-        receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
-        createReceipt(order_name, order_number + order_id, receiptOrderItems + receiptOrderItemsDeliveryFee, base_price, splits)
+    while not endProgram:
+        try: 
+            while continue_order:
+            
+                    if (order_name == ""):
+                        print(break_line)
+                        order_name = input("\nPlease enter a name for the order?\n")
+                    #would you like to double the last order exactly as it was written? 
+                    # if Y - validate, set order_amount to 2, double price, createReceiptOrder,
+                    pizza_price, pizza_string, continue_order, pizza_extra = createOrder()
+                    pizza_list.append(pizza_string)
+                    base_price +=pizza_price
+            order_list = "endOfPizza".join(pizza_list)
+            splits = inputSplits()
+            soda_count, breadstick_count, extras_value = addExtras()
+            delivery_option, receiptOrderItemsDeliveryFee = deliverOrder()
+            receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
+            createReceipt(order_name, order_number + order_id, receiptOrderItems + receiptOrderItemsDeliveryFee, base_price + extras_value, splits)
 
-        if delivery_option == "Y":
-            print(f"THANK YOU FOR ORDERING WITH FREDDIES {order_name}!!! \nWe are working AS FAST AS HUMANLY POSSIBLE to get your pizza to you. \nIf it ain't there in 30 minutes, we are sorry :(")
-        else:
-            print(f"THANK YOU FOR ORDERING WITH FREDDIES {order_name}!!! \nWe are baking AS FAST AS HUMANLY POSSIBLE so your order is ready when you arrive. \nIf it ain't ready in 15 minutes, we are sorry :(")
+            if delivery_option == "Y":
+                print(f"THANK YOU FOR ORDERING WITH FREDDIES {order_name}!!! \nWe are working AS FAST AS HUMANLY POSSIBLE to get your pizza to you. \nIf it ain't there in 30 minutes, we are sorry :(")
+            else:
+                print(f"THANK YOU FOR ORDERING WITH FREDDIES {order_name}!!! \nWe are baking AS FAST AS HUMANLY POSSIBLE so your order is ready when you arrive. \nIf it ain't ready in 15 minutes, we are sorry :(")
+
+        except (KeyboardInterrupt) as e:
+            print("\nQuitting current order.")
+                        
+        
 
         order_again = inputYesOrNo(f"\nIf you would like to add a seperate order please enter \"Y\" otherwise enter \"N\" to end the program\n")
         
@@ -1415,3 +1451,6 @@ def FreddiesPizzaApplication():
 
 
 FreddiesPizzaApplication()
+
+
+

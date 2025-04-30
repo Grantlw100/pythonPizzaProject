@@ -36,10 +36,7 @@ def runFreddiesTest(number, testType):
     base_price = 0.00
     order_number = 1
     pizza_list = []
-    pizza_extra = [0,0]
     order_list = ""
-    soda_count = 0
-    breadstick_count = 0
     continue_order = True
     order_again = ""
     endProgram = False
@@ -70,18 +67,18 @@ def runFreddiesTest(number, testType):
             print(endField)
             print(f" {"NEWPIZZA "*11}")
             print("\n")
-            pizza_price, pizza_string, continue_order, pizza_extra, order_again = createOrderTest(testArray[1], testType)
+            pizza_price, pizza_string, continue_order, order_again = createOrderTest(testArray[1], testType)
             print(topField)
             print("CREATE ORDER COMPLETE")
             print(endField)
-            print(f"\nPIZZA PRICE: {pizza_price} PIZZA STRING: {pizza_string} CONTINUE ORDER:{continue_order} PIZZA EXTRA :{pizza_extra} ORDER AGAIN :{order_again}\n")
+            print(f"\nPIZZA PRICE: {pizza_price} PIZZA STRING: {pizza_string} CONTINUE ORDER:{continue_order} ORDER AGAIN :{order_again}\n")
             print(fullField)
             print("\n")
             pizza_list.append(pizza_string)
-            soda_count += pizza_extra[0]
-            breadstick_count += pizza_extra[1]
             base_price +=pizza_price
         order_list = "endOfPizza".join(pizza_list)
+        soda_count, breadstick_count, extra_value = addExtrasTest(testArray[1], testType)
+        base_price+= extra_value
         delivery_option, receiptOrderItemsDeliveryFee = deliverOrderTest(testArray[1], testType)
         receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
         print(topField)
@@ -134,10 +131,7 @@ def runFreddiesTest(number, testType):
 
             order_number+=1
             base_price = 0
-            breadstick_count = 0
-            soda_count= 0
             pizza_list = []
-        
             order_list = ""
             receiptOrderItems = ""
             continue_order = True
@@ -156,9 +150,7 @@ def runFreddiesTest(number, testType):
 
 def createOrderTest(testArray, testType):
     pizza_string = ""
-    pizza_extra = [0,0]
     pizza_price = 0.00
-    pizza_extra = [0,0]
 
     print(topField)
     print("TEST PIZZA SIZE")
@@ -181,23 +173,6 @@ def createOrderTest(testArray, testType):
     print(fullField)
     print("\n")
        
-       
-    print(topField)
-    print("TEST ADDING FREDSTICKS")
-    print(endField)
-    extra_breadsticks = generateTestInputs(testArray, testType)
-    print(fullField)
-    print("\n")
-    
-    
-    print(topField)
-    print("TEST ADDING SODA")
-    print(endField)
-    extra_soda = generateTestInputs(testArray, testType)
-    print(fullField)
-    print("\n")
-
-
     print(topField)
     print("TEST CONTINUE ORDER")
     print(endField)
@@ -211,6 +186,8 @@ def createOrderTest(testArray, testType):
     order_again = generateTestInputs(testArray, testType)
     print(fullField)
     print("\n")
+
+
 
     # Base Price of Pizza
     if pizza_size == "S":
@@ -235,25 +212,17 @@ def createOrderTest(testArray, testType):
     pizza_string += topping_extra_cheese + ""
 
     
-    if extra_soda == "Y":
-        pizza_price += 2.00
-        pizza_extra[0] += 1 
-
-    if extra_breadsticks == "Y":
-        pizza_price += 5.00
-        pizza_extra[1] += 1
-
     if pizza_size == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
         pizza_price = 25.00
 
 
     if continue_order_valid == "Y":
         continue_order = True
-        return pizza_price, pizza_string, continue_order, pizza_extra, order_again
+        return pizza_price, pizza_string, continue_order, order_again
 
     elif continue_order_valid == "N":
          continue_order = False
-         return pizza_price, pizza_string, continue_order, pizza_extra, order_again
+         return pizza_price, pizza_string, continue_order, order_again
 
 
 
@@ -275,15 +244,52 @@ def deliverOrderTest(testArray, testType):
         receiptOrderItemsDeliveryFee += f"\n\tNO DELIVERY FEE"
     return deliver_order, receiptOrderItemsDeliveryFee
 
+def addExtrasTest(testArray, testType):
+    soda_count = 0
+    stick_count = 0
+    soda_value = 0.00
+    stick_value = 0.00
+    extra_value = 0.00
 
-def calculateGratuityTest(subtotal):
+    print(topField)
+    print("TEST ADDING SODA")
+    print(endField)
+    extra_soda = generateTestInputs(testArray, testType)
+    if extra_soda == "Y":
+        print(breakLine)
+        soda_count = random.randint(0,10) 
+        soda_value = (2.00*float(soda_count))
+        print(f"SODAS ORDERED:      {soda_count}    VALUE: {soda_value}")
+        extra_value += soda_value
+    print(fullField)
+    print("\n")
     
+    
+    print(topField)
+    print("TEST ADDING FREDSTICKS")
+    print(endField)
+    extra_breadsticks = generateTestInputs(testArray, testType)
+    if extra_breadsticks == "Y":
+        print(breakLine)
+        stick_count = random.randint(0,10) 
+        stick_value +=( 5.00 * float(stick_count))
+        print(f"FREDSTICKS ORDERED: {stick_count}    VALUE: {stick_value}")
+        extra_value += stick_value
+    print(fullField)
+    print("\n")
+
+
+
+    return soda_count, stick_count, extra_value
+
+
+def calculateGratuityTest(subtotal):    
     tipAmount = (random.randint(1,10)/10)
     subtotal *= tipAmount
     print(topField)
     print("TEST DELIVER ORDER")
     print(endField)
-    print(f"\nORDER TIP PERCENTAGE: {tipAmount*10}%")
+    print(f"\nORDER TIP PERCENTAGE: {tipAmount*100}%")
     print(f"\n{breakLine}\n")
     print(f"ORDER TIP AMOUNT: {subtotal: .2f}\n")
     print(fullField)

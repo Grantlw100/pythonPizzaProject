@@ -8,11 +8,12 @@
 
 
 # import receipt generator
-from utils.order import createOrder, deliverOrder
+from utils.order import createOrder, deliverOrder, addExtras
 from utils.receipt import createReceiptItems, createReceipt
 from utils.utils import pizza_intro, pizza_outro, inputYesOrNo, inputSplits
 from test.test import week5Test
 import random
+
 
 
 def FreddiesPizzaApplication():
@@ -29,20 +30,17 @@ def FreddiesPizzaApplication():
     _id = random.randint(1, 999)
     order_number = 1
     order_id = order_number + _id
+
     order_name = ""
     order_list = ""
-    pizza_list = []
-    pizza_extra = [0,0]
-    soda_count = 0
-    breadstick_count = 0
     continue_order = True
     order_again = ""
     endProgram = False
     receiptOrderItems = ""
     receiptOrderItemsDeliveryFee = " "
 
-
-
+    # incorporate pizza_extra into pizza list
+    pizza_list = []
 
 
 
@@ -52,7 +50,6 @@ def FreddiesPizzaApplication():
     # base_price, pizza_string, continue_order = createOrder()
     while not endProgram:
         try: 
-            
             while continue_order:
             
                     if (order_name == ""):
@@ -62,14 +59,13 @@ def FreddiesPizzaApplication():
                     # if Y - validate, set order_amount to 2, double price, createReceiptOrder,
                     pizza_price, pizza_string, continue_order, pizza_extra = createOrder()
                     pizza_list.append(pizza_string)
-                    soda_count += pizza_extra[0]
-                    breadstick_count += pizza_extra[1]
                     base_price +=pizza_price
             order_list = "endOfPizza".join(pizza_list)
             splits = inputSplits()
+            soda_count, breadstick_count, extras_value = addExtras()
             delivery_option, receiptOrderItemsDeliveryFee = deliverOrder()
             receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
-            createReceipt(order_name, order_number + order_id, receiptOrderItems + receiptOrderItemsDeliveryFee, base_price, splits)
+            createReceipt(order_name, order_number + order_id, receiptOrderItems + receiptOrderItemsDeliveryFee, base_price + extras_value, splits)
 
             if delivery_option == "Y":
                 print(f"THANK YOU FOR ORDERING WITH FREDDIES {order_name}!!! \nWe are working AS FAST AS HUMANLY POSSIBLE to get your pizza to you. \nIf it ain't there in 30 minutes, we are sorry :(")

@@ -1,5 +1,5 @@
 
-from .utils import inputPizzaSize, inputPizzaYesOrNo, start_delayed_message
+from .utils import inputPizzaSize, inputPizzaYesOrNo, inputInt, start_delayed_message
 input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
 
 
@@ -43,8 +43,6 @@ def createOrder():
     pizza_size = inputPizzaSize()
     topping_pepperoni = inputPizzaYesOrNo(input_array[0])
     topping_extra_cheese  = inputPizzaYesOrNo(input_array[1])
-    extra_soda  = inputPizzaYesOrNo(input_array[2])
-    extra_breadsticks = inputPizzaYesOrNo(input_array[3])
     continue_order_valid = inputPizzaYesOrNo(input_array[4])
     
 
@@ -134,5 +132,25 @@ def deliverOrder():
     return deliver_order, receiptOrderItemsDeliveryFee
 
 
+
+def addExtras():
+    soda_count = 0
+    stick_count = 0
+    extras_value = 0.00
+
+    
+    extra_soda  = inputPizzaYesOrNo(input_array[2])
+    extra_breadsticks = inputPizzaYesOrNo(input_array[3])
+
+
+    if extra_soda == "Y":
+        soda_count = inputInt("How many sodas would you like to add?")
+        extras_value += (soda_count * 2.00)
+
+    if extra_breadsticks == "Y":
+        stick_count = inputInt("How many orders of FredSticks would you like to add?")
+        extras_value += (stick_count * 5.00)
+
+    return soda_count, stick_count, extras_value
 
 
