@@ -20,6 +20,21 @@ import time
 #######################################################################################################################################################################################################
 
 
+input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
+
+beginField = (">"*100)
+endField = ("<"*100)
+fullField = ("#"*100)
+breakField = "\n\n\n"
+breakLine = ("-"*100)
+testTopBrackt =f"{("\\")*100}\n{("/")*100}"
+testBottomBracket =f"{("/")*100}\n{("\\")*100}"
+orderTopBracket = f"{">"*100}\n{">"*100}"
+orderBottomBracket = f"{"<"*100}\n{"<"*100}"
+
+topField = fullField + "\n" + beginField
+bottomField = endField + "\n" + fullField + "\n"
+
 
 
 size_list = ["S","M","L"]
@@ -83,7 +98,7 @@ def inputPizzaYesOrNo(message):
     value = ""
     yesOrNo = "Please enter \"Y\" for yes and \"N\" for no.\n"
     consoleRequest = inputPizzaMessage(message)
-    consoleRequest += yesOrNo
+    consoleRequest += f"\n{yesOrNo}"
     option_list = ["Y","N"]
     break_line = "\n"+("-"*80)
     print(break_line)
@@ -144,9 +159,8 @@ def inputFloat(message):
 def calculateGratuity(subtotal):
     break_line = "\n"+("-"*80)
     tipAmount = 0
-    print(break_line)
 
-    getFloatMessage = "\nHow many test would you like to run? (MAX 10 TESTS)\n"
+    getFloatMessage = "Please enter a tip as a dollar amount ($5) or ($5.50) or as a decimal for a percentage (.03 = 3%)"
     tipAmount = inputFloat(getFloatMessage)
     # If the gratuity was a flat amount add it to the total
         
@@ -213,102 +227,15 @@ UuUuUuUuU   IT AINT ...
 mm O  O |    _______    
 m ___~*~|.-''#O&#o%#``-.   
  \\\\__/ /((%& FREDDIES %&))  
-_/\\~v~/\__`-._#%&O#&%_.-'   
-` |\F/|`- \ `-."".-'
-  |.| |    \ /`./      WE
-  |.| |  \  `  /    HOPE YOU 
-  |.| |   \   / ENJOY YOUR ORDER
+_/\\~v~/\\__`-._#%&O#&%_.-'   
+` |\\F/|`- \\ `-."".-'
+  |.| |    \\ /`./      WE
+  |.| |  \\  `  /    HOPE YOU 
+  |.| |   \\   / ENJOY YOUR ORDER
 -----------------------------------
 Thank you for ordering at Freddies!
 {new_order}
 """
-
-
-cheese = inputFloat("cheese")
-print(cheese)
-
-cheese2 = inputInt("Chees2")
-print(cheese2)
-
-
-
-#######################################################################################################################################################################################################
-#
-#               # TEST UTILITIES
-#   # This is the main entry point for the Freddies Pizzeria Console Ordering application.
-#
-#######################################################################################################################################################################################################
-
-
-
-
-
-def delayed_print(message, delay):
-    """Prints a message to the console after a specified delay."""
-    time.sleep(delay)
-    print("\n"+("*"*120))
-    print(message)
-    print(("*"*120)+"\n")
-
-def start_delayed_message(message, delay):
-  """Starts a thread to print a message after a delay."""
-  thread = threading.Thread(target=delayed_print, args=(message, delay))
-  thread.daemon = True  # Allow the program to exit even if the thread is running
-  thread.start()
-
-
-  
-# print Freddies' Welcome Message (See end for more nnotes)
-pizza_intro =f"""
-\n  
-{new_order}
-Welcome to                     ._
-                              ,(  `-.
-    Freddies                ,': `.   `.
-        Pizza Ordering    ,` *   `-.   \\
-            Console App ,'  ` :+  = `.  `.
-                       ,~  (o):  .,   `.  `.
-                     ,'  ; :   ,(__) x;`.  ;
-                   ,'  :'  itz  ;  ; ; _,-'
-                 .'O ; = _' C ; ;'_,_ ;
-               ,;  _;   ` : ;'_,-'   i'
-             ,` `;(_)  0 ; ','       :
-           .';6     ; ' ,-'~
-         ,' Q  ,& ;',-.'
-       ,( :` ; _,-'~  ;
-     ,~.`c _','
-   .';^_,-' ~       WHERE...
- ,'_;-''                IF IT AIN'T FRESH
-,,~                        IT AIN'T FREDDIES
-                    
-
-Order a Large pizza Freddies' way for a $5 discount! 
-        (with extra cheese and pepperoni)
-{new_order}
-"""
-
-pizza_outro = f"""
-\n
-{new_order}
-     IF IT AINT FRESH                   
-UuUuUuUuU   IT AINT ... 
-mm O  O |    _______    
-m ___~*~|.-''#O&#o%#``-.   
- \\__/ /((%& FREDDIES %&))  
-_/\~v~/\__`-._#%&O#&%_.-'   
-` |\F/|`- \ `-."".-'
-  |.| |    \ /`./      WE
-  |.| |  \  `  /    HOPE YOU 
-  |.| |   \   / ENJOY YOUR ORDER
------------------------------------
-Thank you for ordering at Freddies!
-{new_order}
-"""
-
-
-
-
-
 
 def generateBackupChance(inputArray):
     wrongChoiceArray = ["S", "M", "L", "Y", "N", "s", "m", "l", "1", "return", "continue", " ", "^c", "^q", "&", "0"]
@@ -423,11 +350,10 @@ def generateTestInputs(testArray, testType):
 
 #############################################################################################################################################################
 #
-#               # Order Generator
+#               # Freddies Pizzeria Console Application Order Generator
 #   # This is where the order is created for the rest of the program to use
 #
 #############################################################################################################################################################
-
 
 
 yesOrNo = "Please enter \"Y\" for yes and \"N\" for no.\n"
@@ -450,7 +376,6 @@ def inputMessage(value):
 
 def createPizza():
     pizza_string = ""
-    pizza_extra = [0,0]
     pizza_price = 0.00
     topping_pepperoni = ""
     topping_extra_cheese  = ""
@@ -486,6 +411,7 @@ def createPizza():
     else:
         pizza_string += topping_pepperoni + " "
 
+
     # Add Extra Cheese to Pizza
     if topping_extra_cheese == "Y":
         pizza_price += 1.00
@@ -493,14 +419,6 @@ def createPizza():
     else: 
         pizza_string += topping_extra_cheese + ""
 
-    
-    if extra_soda == "Y":
-        pizza_price += 2.00
-        pizza_extra[0] += 1 
-
-    if extra_breadsticks == "Y":
-        pizza_price += 5.00
-        pizza_extra[1] += 1
 
     if pizza_size == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
         pizza_price = 25.00
@@ -511,7 +429,7 @@ def createPizza():
         continue_order = True
     else:
          continue_order = False
-    return pizza_price, pizza_string, continue_order, pizza_extra
+    return pizza_price, pizza_string, continue_order
 
 
 
@@ -531,7 +449,7 @@ def deliverOrder():
     receiptOrderItemsDeliveryFee = ""
     
     
-    deliver_order = inputPizzaYesOrNo(input_array[5])
+    deliver_order = inputYesOrNo("If you would like to add delivery to your order please enter \"Y\" for yes and \"N\" for no delivery.")
         
     # Example usage:
     if deliver_order == "Y":
@@ -574,8 +492,6 @@ def addExtras():
 
 
 
-
-
 #############################################################################################################################################################
 #
 #               # RECEIPT Generator
@@ -584,6 +500,10 @@ def addExtras():
 #############################################################################################################################################################
 
 
+
+# import necessary technologies for date time and random integer generation
+from datetime import datetime, date
+import random
 
 break_line = ("-"*120)
 # create receipt function
@@ -598,10 +518,10 @@ def createReceipt(order_name, order_id, order_items, base_price, split_amount):
     billing = ""
     if( split_amount >= 2):
         split_price = total / float(split_amount)
-        billing = f"VISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}\n"*split_amount
+        billing = f"\tVISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}\n"*split_amount
         split_bill = f"TOTAL SPLIT x{split_amount}:    ${split_price:.2f}"
     else:
-        billing += f"VISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}"
+        billing += f"\tVISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}"
 
         
 
@@ -645,7 +565,7 @@ def createReceipt(order_name, order_id, order_items, base_price, split_amount):
     ORDER:           {order_id} 
     BATCH:           {batch} 
     APPR:            {appr} 
-    {billing}
+{billing}
     Order:
     {order_items}
     SUBTOTAL:          ${base_price:.2f}
@@ -731,13 +651,13 @@ def createReceiptItems(order_list, soda_count, bread_stick_count ):
 
 
 
+
 #############################################################################################################################################################
 #
-#               # FREDDIES TEST 
+#               # FREDDIES TEST FUNCTIONS
 #   # This is where the order is created for the rest of the program to use
 #
 #############################################################################################################################################################
-
 
 
 
@@ -1024,260 +944,6 @@ def calculateGratuityTest(subtotal):
     print("\n")
     return subtotal
     
-#############################################################################################################################################################
-#
-#               # FREDDIES WEEK 4 TEST 
-#   # This is where the order is created for the rest of the program to use
-#
-#############################################################################################################################################################
-breakline = "-"*100
-
-
-
-def generateRightOrders(number):
-    #price of all of the pizzas total
-    total_price = 0.00
-    orders = 0
-    pizza_string = ""
-    print("#"*100)
-    print(f"\t\t\t\tBEGIN TEST NUMBER:{number + 1}")
-    print(">"*100)
-    # Loop that creates the multiple orders
-    while True:
-        base_price = 0.00
-        orders +=1
-        print (f"This is pizza # {orders}.")
-        print(">"*100)
-        
-    # Ask customer to choose the size of their pizza 
-        print(breakline)
-        print("Test Pizza Size")
-        pizza_size = generateRightChance(testArray[0])
-        while pizza_size.upper() not in ("S", "M", "L"):
-            print("Invalid input. Please enter S, M, or L. \n")
-            pizza_size = generateRightChance(testArray[0])
-        pizza_string += pizza_size
-        print("\n")
-        if pizza_size.upper() == "S":
-            base_price += 15.00
-        elif pizza_size.upper() == "M":
-            base_price += 20.00
-        elif pizza_size.upper() == "L":
-            base_price += 25.00
-        
-    # Ask customer if they want pepperoni #
-        print(breakline)
-        print("Test Adding Pepperoni")
-        topping_pepperoni = generateRightChance(testArray[1])
-        while topping_pepperoni.upper() not in ("Y", "N"):
-            print("Invalid input. Please enter Y or N")
-            topping_pepperoni = generateRightChance(testArray[1])
-        pizza_string += topping_pepperoni
-
-        print("\n")
-        if topping_pepperoni == "Y":
-            if pizza_size.upper() == "S":
-                base_price += 2.00
-            if pizza_size.upper() == "M":
-                base_price += 3.00
-            if pizza_size.upper() == "L":
-                base_price +=3.00
-            elif topping_pepperoni.upper() == "N":
-                base_price += 0.00
-    
-    # Ask customer if they want extra cheese #
-        print(breakline)
-        print("Test Adding Cheese")
-        topping_extra_cheese = generateRightChance(testArray[1])
-        while topping_extra_cheese.upper() not in ("Y", "N"):   
-            print("Invalid input. Please enter Y or N")
-            topping_extra_cheese = generateRightChance(testArray[1])
-        pizza_string += topping_extra_cheese
-
-        print("\n")
-        if topping_extra_cheese.upper() == "Y":
-            base_price += 1.00
-        elif topping_extra_cheese.upper() == "N":
-            base_price += 0.00
-        
-    # If the customers orders a Large Pizza with pepperoni and extra cheese they get a $5 discount.
-        if pizza_size.upper() == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
-            print ("Congratulations! You've earned a $5 discount on your order.")
-            base_price -= 5.00
-        
-    # Add base price to total order
-        total_price += base_price
-        
-        print (f"Your total is ${total_price:.2f} at this time.")
-        
-    # Ask if they want to order another pizza BEFORE showing total
-        print(breakline)
-        print("Test Adding more pizzas")
-        another = generateRightChance(testArray[1])
-        while another not in ("Y", "N"):
-            another = generateRightChance(testArray[1])
-        pizza_string += another
-        print(f"\nPIZZA STRING IS :{pizza_string}\n")
-        print("\n")
-    # Exit the pizza-adding loop    
-        if another == "N":
-            break  
-
-    # Final Bill
-    if orders > 1:
-        print(f"You have {orders} pizzas in your order.")
-    if orders == 1:
-        print(f"You have {orders} pizza in your order.")
-    print(f"Thank you for choosing Python Pizza Deliveries, your final bill is ${total_price:.2f}")
-    print("<"*100)
-    print(f"\t\t\t\tEND TEST NUMBER:{number+1}")
-    print(("<"*100)+"\n\n\n\n")
-
-
-
-breakLine = "-"*100
-
-def generateOrders(number):
-    #price of all of the pizzas total
-    total_price = 0.00
-    orders = 0
-    print("#"*100)
-    print(f"\t\t\t\tBEGIN TEST NUMBER:{number + 1}")
-    print(">"*100)
-    # Loop that creates the multiple orders
-    while True:
-        base_price = 0.00
-        orders +=1
-        print (f"This is pizza # {orders}.")
-        print(">"*100)
-        
-    # Ask customer to choose the size of their pizza 
-        print(breakline)
-        print("Test Pizza Size")
-        pizza_size = generateChance(testArray[0])
-        while pizza_size.upper() not in ("S", "M", "L"):
-            print("Invalid input. Please enter S, M, or L. \n")
-            pizza_size = generateChance(testArray[0])
-        
-        if pizza_size.upper() == "S":
-            base_price += 15.00
-        elif pizza_size.upper() == "M":
-            base_price += 20.00
-        elif pizza_size.upper() == "L":
-            base_price += 25.00
-        
-    # Ask customer if they want pepperoni #
-        print(breakline)
-        print("Test Adding Pepperoni")
-        topping_pepperoni = generateChance(testArray[1])
-        while topping_pepperoni.upper() not in ("Y", "N"):
-            print("Invalid input. Please enter Y or N")
-            topping_pepperoni = generateChance(testArray[1])
-            
-        if topping_pepperoni == "Y":
-            if pizza_size.upper() == "S":
-                base_price += 2.00
-            if pizza_size.upper() == "M":
-                base_price += 3.00
-            if pizza_size.upper() == "L":
-                base_price +=3.00
-            elif topping_pepperoni.upper() == "N":
-                base_price += 0.00
-    
-    # Ask customer if they want extra cheese #
-        print(breakline)
-        print("Test Adding Cheese")
-        topping_extra_cheese = generateChance(testArray[1])
-        while topping_extra_cheese.upper() not in ("Y", "N"):   
-            print("Invalid input. Please enter Y or N")
-            topping_extra_cheese = generateChance(testArray[1])
-            
-        if topping_extra_cheese.upper() == "Y":
-            base_price += 1.00
-        elif topping_extra_cheese.upper() == "N":
-            base_price += 0.00
-        
-    # If the customers orders a Large Pizza with pepperoni and extra cheese they get a $5 discount.
-        if pizza_size.upper() == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
-            print ("Congratulations! You've earned a $5 discount on your order.")
-            base_price -= 5.00
-        
-    # Add base price to total order
-        total_price += base_price
-        
-        print (f"Your total is ${total_price:.2f} at this time.")
-        
-    # Ask if they want to order another pizza BEFORE showing total
-        print(breakline)
-        print("Test Adding more pizzas")
-        another = generateChance(testArray[1])
-        while another not in ("Y", "N"):
-            another = generateChance(testArray[1])
-            
-    # Exit the pizza-adding loop    
-        if another == "N":
-            break  
-
-    # Final Bill
-    if orders > 1:
-        print(f"You have {orders} pizzas in your order.")
-    if orders == 1:
-        print(f"You have {orders} pizza in your order.")
-    print(f"Thank you for choosing Python Pizza Deliveries, your final bill is ${total_price:.2f}")
-    print("<"*100)
-    print(f"\t\t\t\tEND TEST NUMBER:{number+1}")
-    print(("<"*100)+"\n\n\n\n")
-
-
-def runWeek4WrongTest():
-    input = inputYesOrNo("Would you like to run tests with PROPER inputs?")
-    if input == "Y":
-        testsToRun = inputInt()
-        print(topField)
-        print("@"*100)
-        print("\t\t\t\tBEGIN TESTS")
-        print("@"*100)
-        print(bottomField)
-        number = 0
-        while number < testsToRun:
-            try:
-                value = generateOrders(number)
-            except (KeyboardInterrupt, EOFError, AttributeError, UnboundLocalError, TypeError) as e:
-                print("-- ERROR --"*10)
-                print(f"\n\t\t\tTHIS INPUT BROKE THE SYSTEM:\n\t\t\t\t\t\"{value}\"\n")
-                print("<"*100)
-                print(f"\t\t\t\tEND TEST NUMBER:{number+1}")
-                print(("<"*100)+"\n\n\n\n")
-            number+=1
-
-    
-    
-
-
-
-def RunWeek4RightTest():
-    input = inputYesOrNo("Would you like to run tests with PROPER inputs?")
-    if input == "Y":
-        testsToRun = inputInt()
-        print(topField)
-        print("@"*100)
-        print("\t\t\t\tBEGIN TESTS")
-        print("@"*100)
-        print(bottomField)
-        number = 0
-        while number < testsToRun:
-            value = ""
-        try:
-            value = generateRightOrders(number)
-        except (KeyboardInterrupt, EOFError, AttributeError, UnboundLocalError, TypeError) as e:
-            print("-- ERROR --"*10)
-            print(f"\n\t\t\tTHIS INPUT BROKE THE SYSTEM:\n\t\t\t\t\t\"{e}\"\n")
-            print("-- ERROR --"*10)    
-            print("\n\n\n")
-        number+=1
-    
-
-    
 
     
 
@@ -1365,7 +1031,6 @@ def week5Test():
 
     
 
-
 def FreddiesPizzaApplication():
     print(breakLine)
     runTest = inputYesOrNo("Would you like to run tests for Freddies Week 5 Code?")
@@ -1373,8 +1038,8 @@ def FreddiesPizzaApplication():
     if runTest == "Y":
         week5Test()
     # initialize base values and comparison lists
-    break_line = ("-"*80)
-    new_order = ("#"*120)
+    break_line = ("-"*100)
+    new_order = ("#"*100)
 
     base_price = 0.00
     _id = random.randint(1, 999)
@@ -1397,7 +1062,7 @@ def FreddiesPizzaApplication():
 
 
     print(pizza_intro)
-    # base_price, pizza_string, continue_order = createPizza()
+    print("Enter ctrl + c to end current order then enter \"N\" to exit the program")
     while not endProgram:
         try: 
             while continue_order:
@@ -1407,13 +1072,13 @@ def FreddiesPizzaApplication():
                         order_name = input("\nPlease enter a name for the order?\n")
                     #would you like to double the last order exactly as it was written? 
                     # if Y - validate, set order_amount to 2, double price, createReceiptOrder,
-                    pizza_price, pizza_string, continue_order, pizza_extra = createPizza()
+                    pizza_price, pizza_string, continue_order = createPizza()
                     pizza_list.append(pizza_string)
                     base_price +=pizza_price
             order_list = "endOfPizza".join(pizza_list)
-            splits = inputSplits()
             soda_count, breadstick_count, extras_value = addExtras()
             delivery_option, receiptOrderItemsDeliveryFee = deliverOrder()
+            splits = inputSplits()
             receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
             createReceipt(order_name, order_number + order_id, receiptOrderItems + receiptOrderItemsDeliveryFee, base_price + extras_value, splits)
 

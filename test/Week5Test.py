@@ -1,5 +1,5 @@
-from utils.utils import inputYesOrNo, inputInt
-from utils.FreddiesTest import runFreddiesTest, topField, bottomField, testBottomBracket, testTopBrackt, orderBottomBracket, orderTopBracket
+from utils.Utils import inputYesOrNo, inputInt
+from utils.TestFunctions import runFreddiesTest, topField, bottomField, testBottomBracket, testTopBrackt, orderBottomBracket, orderTopBracket
 
 def week5Test():
     input = inputYesOrNo("Would you like to run tests with PROPER inputs?")

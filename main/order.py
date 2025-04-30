@@ -1,5 +1,5 @@
 
-from .utils import inputPizzaSize, inputPizzaYesOrNo, inputYesOrNo, inputInt, start_delayed_message
+from utils.Utils import inputPizzaSize, inputPizzaYesOrNo, inputYesOrNo, inputInt, start_delayed_message
 input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
 
 

@@ -8,11 +8,11 @@
 
 
 # import receipt generator
-from utils.order import createPizza, deliverOrder, addExtras
-from utils.receipt import createReceiptItems, createReceipt
-from utils.utils import pizza_intro, pizza_outro, inputYesOrNo, inputSplits
-from utils.FreddiesTest import breakLine
-from test.test import week5Test
+from main.order import createPizza, deliverOrder, addExtras
+from main.receipt import createReceiptItems, createReceipt
+from utils.Utils import pizza_intro, pizza_outro, inputYesOrNo, inputSplits
+from utils.TestFunctions import breakLine
+from test.Week5Test import week5Test
 import random
 
 
@@ -48,8 +48,7 @@ def FreddiesPizzaApplication():
 
 
     print(pizza_intro)
-    print("Enter ctrl + c to end the cancel out the order then enter \"Y\" to exit the program")
-    # base_price, pizza_string, continue_order = createPizza()
+    print("Enter ctrl + c to end current order then enter \"N\" to exit the program")
     while not endProgram:
         try: 
             while continue_order:
@@ -63,9 +62,9 @@ def FreddiesPizzaApplication():
                     pizza_list.append(pizza_string)
                     base_price +=pizza_price
             order_list = "endOfPizza".join(pizza_list)
-            splits = inputSplits()
             soda_count, breadstick_count, extras_value = addExtras()
             delivery_option, receiptOrderItemsDeliveryFee = deliverOrder()
+            splits = inputSplits()
             receiptOrderItems = createReceiptItems(order_list, soda_count, breadstick_count)
             createReceipt(order_name, order_number + order_id, receiptOrderItems + receiptOrderItemsDeliveryFee, base_price + extras_value, splits)
 

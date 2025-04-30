@@ -1,8 +1,6 @@
-from .receipt import createReceiptItems
+from main.receipt import createReceiptItems
 import random
-from .testUtils import generateTestInputs
-from .utils import testArray
-
+from utils.Utils import testArray, generateTestInputs
 #############################################################################################################################################################
 #
 #               # FREDDIES TEST 
