@@ -448,7 +448,7 @@ def inputMessage(value):
     print(f"\nWould you like to {value} your order?")
 
 
-def createOrder():
+def createPizza():
     pizza_string = ""
     pizza_extra = [0,0]
     pizza_price = 0.00
@@ -772,7 +772,7 @@ def runFreddiesTest(number, testType):
     receiptOrderItemsDeliveryFee = " "
 
 
-    #     createOrder
+    #     createPizza
     #     delliverOrde
     print(breakField)
     print(testTopBrackt)
@@ -795,7 +795,7 @@ def runFreddiesTest(number, testType):
             print(endField)
             print(f" {"NEWPIZZA "*11}")
             print("\n")
-            pizza_price, pizza_string, continue_order, order_again = createOrderTest(testArray[1], testType)
+            pizza_price, pizza_string, continue_order, order_again = createPizzaTest(testArray[1], testType)
             print(topField)
             print("CREATE ORDER COMPLETE")
             print(endField)
@@ -876,7 +876,7 @@ def runFreddiesTest(number, testType):
             
 
 
-def createOrderTest(testArray, testType):
+def createPizzaTest(testArray, testType):
     pizza_string = ""
     pizza_price = 0.00
 
@@ -1397,7 +1397,7 @@ def FreddiesPizzaApplication():
 
 
     print(pizza_intro)
-    # base_price, pizza_string, continue_order = createOrder()
+    # base_price, pizza_string, continue_order = createPizza()
     while not endProgram:
         try: 
             while continue_order:
@@ -1407,7 +1407,7 @@ def FreddiesPizzaApplication():
                         order_name = input("\nPlease enter a name for the order?\n")
                     #would you like to double the last order exactly as it was written? 
                     # if Y - validate, set order_amount to 2, double price, createReceiptOrder,
-                    pizza_price, pizza_string, continue_order, pizza_extra = createOrder()
+                    pizza_price, pizza_string, continue_order, pizza_extra = createPizza()
                     pizza_list.append(pizza_string)
                     base_price +=pizza_price
             order_list = "endOfPizza".join(pizza_list)

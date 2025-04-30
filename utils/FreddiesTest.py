@@ -44,7 +44,7 @@ def runFreddiesTest(number, testType):
     receiptOrderItemsDeliveryFee = " "
 
 
-    #     createOrder
+    #     createPizza
     #     delliverOrde
     print(breakField)
     print(testTopBrackt)
@@ -67,7 +67,7 @@ def runFreddiesTest(number, testType):
             print(endField)
             print(f" {"NEWPIZZA "*11}")
             print("\n")
-            pizza_price, pizza_string, continue_order, order_again = createOrderTest(testArray[1], testType)
+            pizza_price, pizza_string, continue_order, order_again = createPizzaTest(testArray[1], testType)
             print(topField)
             print("CREATE ORDER COMPLETE")
             print(endField)
@@ -148,7 +148,7 @@ def runFreddiesTest(number, testType):
             
 
 
-def createOrderTest(testArray, testType):
+def createPizzaTest(testArray, testType):
     pizza_string = ""
     pizza_price = 0.00
 

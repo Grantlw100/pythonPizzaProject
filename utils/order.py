@@ -1,5 +1,5 @@
 
-from .utils import inputPizzaSize, inputPizzaYesOrNo, inputInt, start_delayed_message
+from .utils import inputPizzaSize, inputPizzaYesOrNo, inputYesOrNo, inputInt, start_delayed_message
 input_array =  [ "add Pepperoni to", "add Extra Cheese to", "add a soda to", "add FredSticks to", "add more Freddies Pizzas to", "split", "add delivery or pick-up to"]
 
 
@@ -30,9 +30,8 @@ def inputMessage(value):
     print(f"\nWould you like to {value} your order?")
 
 
-def createOrder():
+def createPizza():
     pizza_string = ""
-    pizza_extra = [0,0]
     pizza_price = 0.00
     topping_pepperoni = ""
     topping_extra_cheese  = ""
@@ -68,6 +67,7 @@ def createOrder():
     else:
         pizza_string += topping_pepperoni + " "
 
+
     # Add Extra Cheese to Pizza
     if topping_extra_cheese == "Y":
         pizza_price += 1.00
@@ -75,14 +75,6 @@ def createOrder():
     else: 
         pizza_string += topping_extra_cheese + ""
 
-    
-    if extra_soda == "Y":
-        pizza_price += 2.00
-        pizza_extra[0] += 1 
-
-    if extra_breadsticks == "Y":
-        pizza_price += 5.00
-        pizza_extra[1] += 1
 
     if pizza_size == "L" and topping_pepperoni == "Y" and topping_extra_cheese == "Y":
         pizza_price = 25.00
@@ -93,7 +85,7 @@ def createOrder():
         continue_order = True
     else:
          continue_order = False
-    return pizza_price, pizza_string, continue_order, pizza_extra
+    return pizza_price, pizza_string, continue_order
 
 
 
@@ -113,7 +105,7 @@ def deliverOrder():
     receiptOrderItemsDeliveryFee = ""
     
     
-    deliver_order = inputPizzaYesOrNo(input_array[5])
+    deliver_order = inputYesOrNo("If you would like to add delivery to your order please enter \"Y\" for yes and \"N\" for no delivery.")
         
     # Example usage:
     if deliver_order == "Y":

@@ -71,7 +71,7 @@ def inputPizzaYesOrNo(message):
     value = ""
     yesOrNo = "Please enter \"Y\" for yes and \"N\" for no.\n"
     consoleRequest = inputPizzaMessage(message)
-    consoleRequest += yesOrNo
+    consoleRequest += f"\n{yesOrNo}"
     option_list = ["Y","N"]
     break_line = "\n"+("-"*80)
     print(break_line)
@@ -200,11 +200,11 @@ UuUuUuUuU   IT AINT ...
 mm O  O |    _______    
 m ___~*~|.-''#O&#o%#``-.   
  \\\\__/ /((%& FREDDIES %&))  
-_/\\~v~/\__`-._#%&O#&%_.-'   
-` |\F/|`- \ `-."".-'
-  |.| |    \ /`./      WE
-  |.| |  \  `  /    HOPE YOU 
-  |.| |   \   / ENJOY YOUR ORDER
+_/\\~v~/\\__`-._#%&O#&%_.-'   
+` |\\F/|`- \\ `-."".-'
+  |.| |    \\ /`./      WE
+  |.| |  \\  `  /    HOPE YOU 
+  |.| |   \\   / ENJOY YOUR ORDER
 -----------------------------------
 Thank you for ordering at Freddies!
 {new_order}

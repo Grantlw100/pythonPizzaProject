@@ -8,23 +8,24 @@
 
 
 # import receipt generator
-from utils.order import createOrder, deliverOrder, addExtras
+from utils.order import createPizza, deliverOrder, addExtras
 from utils.receipt import createReceiptItems, createReceipt
 from utils.utils import pizza_intro, pizza_outro, inputYesOrNo, inputSplits
+from utils.FreddiesTest import breakLine
 from test.test import week5Test
 import random
 
 
 
 def FreddiesPizzaApplication():
+    print(breakLine)
     runTest = inputYesOrNo("Would you like to run tests for Freddies Week 5 Code?")
+    print(breakLine)
     if runTest == "Y":
         week5Test()
     # initialize base values and comparison lists
-    size_list = ["S","M","L"]
-    option_list = ["Y","N"]
-    break_line = ("-"*80)
-    new_order = ("#"*120)
+    break_line = ("-"*100)
+    new_order = ("#"*100)
 
     base_price = 0.00
     _id = random.randint(1, 999)
@@ -47,7 +48,8 @@ def FreddiesPizzaApplication():
 
 
     print(pizza_intro)
-    # base_price, pizza_string, continue_order = createOrder()
+    print("Enter ctrl + c to end the cancel out the order then enter \"Y\" to exit the program")
+    # base_price, pizza_string, continue_order = createPizza()
     while not endProgram:
         try: 
             while continue_order:
@@ -57,7 +59,7 @@ def FreddiesPizzaApplication():
                         order_name = input("\nPlease enter a name for the order?\n")
                     #would you like to double the last order exactly as it was written? 
                     # if Y - validate, set order_amount to 2, double price, createReceiptOrder,
-                    pizza_price, pizza_string, continue_order, pizza_extra = createOrder()
+                    pizza_price, pizza_string, continue_order = createPizza()
                     pizza_list.append(pizza_string)
                     base_price +=pizza_price
             order_list = "endOfPizza".join(pizza_list)
@@ -101,6 +103,8 @@ def FreddiesPizzaApplication():
 
 
 FreddiesPizzaApplication()
+
+
 
 
 

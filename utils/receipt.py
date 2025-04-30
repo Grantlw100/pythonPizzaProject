@@ -26,10 +26,10 @@ def createReceipt(order_name, order_id, order_items, base_price, split_amount):
     billing = ""
     if( split_amount >= 2):
         split_price = total / float(split_amount)
-        billing = f"VISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}\n"*split_amount
+        billing = f"\tVISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}\n"*split_amount
         split_bill = f"TOTAL SPLIT x{split_amount}:    ${split_price:.2f}"
     else:
-        billing += f"VISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}"
+        billing += f"\tVISA: XXXX-XXXX-XXXX-{random.randint(1000, 9999)}"
 
         
 
@@ -73,7 +73,7 @@ def createReceipt(order_name, order_id, order_items, base_price, split_amount):
     ORDER:           {order_id} 
     BATCH:           {batch} 
     APPR:            {appr} 
-    {billing}
+{billing}
     Order:
     {order_items}
     SUBTOTAL:          ${base_price:.2f}
